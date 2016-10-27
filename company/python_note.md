@@ -124,6 +124,8 @@ isinstance()可以对判断变量的类型
 凡是可作用于next()函数的对象都是Iterator类型，它们表示一个惰性计算的序列；
 
 集合数据类型如list、dict、str等是Iterable但不是Iterator，不过可以通过iter()函数获得一个Iterator对象。
+
+------
 ## 函数式编程
 ### 高级函数
 可以接收函数变量作为参数的函数  
@@ -147,7 +149,7 @@ isinstance()可以对判断变量的类型
 ## 模块
 一个.py文件就称之为一个模块（Module）   
 为了避免模块名冲突，Python又引入了按目录来组织模块的方法，称为包  
-每一个包目录下面都会有一个__init__.py的文件，这个文件是必须存在的，否则，Python就把这个目录当成普通目录，而不是一个包。\_\_init\_\_.py可以是空文件，也可以有Python代码，因为\_\_init\_\_.py本身就是一个模块，而它的模块名就是mycompany。
+每一个包目录下面都会有一个`__init__.py`的文件，这个文件是必须存在的，否则，Python就把这个目录当成普通目录，而不是一个包。\_\_init\_\_.py可以是空文件，也可以有Python代码，因为\_\_init\_\_.py本身就是一个模块，而它的模块名就是mycompany。
 
 ### 导入模块
 import model_name
@@ -196,6 +198,7 @@ class Student(object):
 python是多继承的语言
 由于Python允许使用多重继承，因此，MixIn就是一种常见的设计。
 
+#### `__str__()`
 **\_\_str\_\_()** 相当于java语言中Object的 `toShting`方法
 ```
 >>>s = Student('Michael')
@@ -216,6 +219,7 @@ class Student(object):
 ```
 `__iter__`
 
+#### `__iter__()`
 如果一个类想被用于for ... in循环，类似list或tuple那样，就必须实现一个`__iter__()`方法，该方法返回一个迭代对象，然后，Python的for循环就会不断调用该迭代对象的`__next__()`方法拿到循环的下一个值，直到遇到StopIteration错误时退出循环。
 
 任何类，只需要定义一个__call__()方法，就可以直接对实例进行调用
@@ -240,6 +244,179 @@ print('END')
 ```
 Python的错误其实也是class，所有的错误类型都继承自BaseException，所以在使用except时需要注意的是，它不但捕获该类型的错误，还把其子类也“一网打尽”。
 raise 语句
+
+### logging
+配置：
+```
+import logging
+logging.basicConfig(level=logging.INFO)
+```
+日志级别： debug info waening error
+
+### 单元测试
+测试类继承于unittest.TestCase   
+以test开头的方法就是测试方法，不以test开头的方法不被认为是测试方法，测试的时候不会被执行
+setup()方法有测试方法调用前被执行
+tearDown()方法在测试方法调用后被执行
+
+### 文档注释
+'''
+doc comment
+'''
+-------
+## IO编程
+### 文件读写
+- 打开文件： `open('path/file-name','rw')`
+- 读取文件内容： read();可以一次读完文件的全部内容。
+- 关闭文件： close();
+Python引入了with语句来自动帮我们调用close()方法：
+```
+with open('/path/to/file', 'r',encoding='gbk') as f:
+    print(f.read())
+```
+- read(size) 读取指定大小的内容
+- readline() 读取一行内容
+- readlines() 一次读取所有内容并并按行list
+- write() 写文件 
+### StringIO 在内存中读写str
+```
+>>> from io import StringIO
+>>> f = StringIO()
+>>> f.write('hello')
+5
+>>> f.write(' ')
+1
+>>> f.write('world!')
+6
+>>> print(f.getvalue())
+hello world!
+```
+- getvalue()用于获得写入后的str
+
+### BytesIO
+BytesIO操作二进制流，在内存中读写bytes
+```
+>>> from io import BytesIO
+>>> f = BytesIO()
+>>> f.write('中文'.encode('utf-8'))
+6
+>>> print(f.getvalue())
+b'\xe4\xb8\xad\xe6\x96\x87'>>> from io import BytesIO
+>>> f = BytesIO()
+>>> f.write('中文'.encode('utf-8'))
+6
+>>> print(f.getvalue())
+b'\xe4\xb8\xad\xe6\x96\x87'
+```
+
+### 操作文件和目录 
+操作文件和目录的函数一部分放在os模块中，一部分放在os.path模块中
+```
+# 查看当前目录的绝对路径:
+>>> os.path.abspath('.')
+'/Users/michael'
+# 在某个目录下创建一个新目录，首先把新目录的完整路径表示出来:
+>>> os.path.join('/Users/michael', 'testdir')
+'/Users/michael/testdir'
+# 然后创建一个目录:
+>>> os.mkdir('/Users/michael/testdir')
+# 删掉一个目录:
+>>> os.rmdir('/Users/michael/testdir')
+```
+把两个路径合成一个时，不要直接拼字符串，而要通过os.path.join()函数，
+这样可以正确处理不同操作系统的路径分隔符。
+在Linux/Unix/Mac下，os.path.join()返回这样的字符串：
+
+要拆分路径时，也不要直接去拆字符串，而要通过os.path.split()函数，
+这样可以把一个路径拆分为两部分，
+后一部分总是最后级别的目录或文件名：
+
+os.path.splitext()可以直接得到文件扩展名  
+shutil模块提供了copyfile()的函数，你还可以在shutil模块中找到很多实用函数，
+它们可以看做是os模块的补充。
+最后看看如何利用Python的特性来过滤文件。比如我们要列出当前目录下的所有目录，只需要一行代码：
+```
+>>> [x for x in os.listdir('.') if os.path.isdir(x)]
+['.lein', '.local', '.m2', '.npm', '.ssh', '.Trash', '.vim', 'Applications', 'Desktop', ...]
+```
+要列出所有的.py文件，也只需一行代码：
+```
+>>> [x for x in os.listdir('.') if os.path.isfile(x) and os.path.splitext(x)[1]=='.py']
+['apis.py', 'config.py', 'models.py', 'pymonitor.py', 'test_db.py', 'urls.py', 'wsgiap
+```
+### 序列化
+把变量从内存中变成可存储或传输的过程称之为序列化
+Python提供了pickle模块来实现序列化。
+
+尝试把一个对象序列化并写入文件：
+```
+>>> import pickle
+>>> d = dict(name='Bob', age=20, score=88)
+>>> pickle.dumps(d)
+b'\x80\x03}q\x00(X\x03\x00\x00\x00ageq\x01K\x14X\x05\x00\x00\x00scoreq\x02KXX\x04\x00\x00\x00nameq\x03X\x03\x00\x00\x00Bobq\x04u.'
+```
+pickle.dumps()方法把任意对象序列化成一个bytes，然后，就可以把这个bytes写入文件。
+或者用另一个方法pickle.dump()直接把对象序列化后写入一个file-like Object：
+```
+>>> f = open('dump.txt', 'wb')
+>>> pickle.dump(d, f)
+>>> f.close()
+```
+当我们要把对象从磁盘读到内存时，可以先把内容读到一个bytes，
+然后用pickle.loads()方法反序列化出对象，
+也可以直接用pickle.load()方法从一个file-like Object中直接反序列化出对象。
+
+Python内置的json模块提供了非常完善的Python对象到JSON格式的转换。
+Python对象变成一个JSON：
+```
+>>> import json
+>>> d = dict(name='Bob', age=20, score=88)
+>>> json.dumps(d)
+'{"age": 20, "score": 88, "name": "Bob"}'
+```
+
+要把JSON反序列化为Python对象，用loads()或者对应的load()方法，
+前者把JSON的字符串反序列化，
+后者从file-like Object中读取字符串并反序列化
+
+通常class的实例都有一个__dict__属性，它就是一个dict，用来存储实例变量。  
+
+如果我们要把JSON反序列化为一个Student对象实例，loads()方法首先转换出一个dict对象，
+然后，我们传入的object_hook函数负责把dict转换为Student实例：
+### 进程与线程 
+在linux中通过 fork() 建立线程
+在Unix/Linux下，multiprocessing模块封装了fork()调用，
+使我们不需要关注fork()的细节。由于Windows没有fork调用，
+因此，multiprocessing需要“模拟”出fork的效果，
+父进程所有Python对象都必须通过pickle序列化再传到子进程去，
+所以，如果multiprocessing在Windows下调用失败了，要先考虑是不是pickle失败了
+
+在Unix/Linux下，可以使用fork()调用实现多进程。
+要实现跨平台的多进程，可以使用multiprocessing模块。
+进程间通信是通过Queue、Pipes等实现的
+#### 线程
+Python的标准库提供了两个模块：_thread和threading，_thread是低级模块，
+threading是高级模块，对_thread进行了封装。绝大多数情况下，
+我们只需要使用threading这个高级模块。
+
+#### ThreadLocal
+ThreadLocal最常用的地方就是为每个线程绑定一个数据库连接，HTTP请求，用户身份信息等，
+这样一个线程的所有调用到的处理函数都可以非常方便地访问这些资源。
+一个ThreadLocal变量虽然是全局变量，但每个线程都只能读写自己线程的独立副本，互不干扰。
+ThreadLocal解决了参数在一个线程中各个函数之间互相传递的问题。
+
+要实现多任务，通常我们会设计Master-Worker模式，Master负责分配任务，Worker负责执行任务，因此，多任务环境下，通常是一个Master，多个Worker。
+
+如果用多进程实现Master-Worker，主进程就是Master，其他进程就是Worker。
+
+如果用多线程实现Master-Worker，主线程就是Master，其他线程就是Worker。
+-------
+## 内置模块
+### datetime
+
+
+
+
 
 
 

@@ -2,29 +2,31 @@
 ## ﻿对用户和email进行设置：
 可以通过 --system --global  默认 等对不同的配置文件进行修改
 - git config --global user.name "name"
-- git cinfig --global user.email "email"
-<br />配置系统用户的名称与邮件信息，每一个git的提交都会使用这些信息，不可更改
+- git cinfig --global user.email "email"  
+ 配置系统用户的名称与邮件信息，每一个git的提交都会使用这些信息，不可更改
 
+## git 下的工作方式
+![工作流程](./img/git/git_work.png)
 
 ## git 换行符问题
 ### 2.1、autocrlf
-  #提交时转换为LF，检出时转换为CRLF <br />
+  #提交时转换为LF，检出时转换为CRLF  
   git config --global core.autocrlf true
 
-  #提交时转换为LF，检出时不转换<br />
+  #提交时转换为LF，检出时不转换  
   git config --global core.autocrlf input
 
-  #提交检出均不转换 <br />
+  #提交检出均不转换   
   git config --global core.autocrlf false
 
 ### 2.2、safecrlf
-  #拒绝提交包含混合换行符的文件 <br />
+  #拒绝提交包含混合换行符的文件   
   git config --global core.safecrlf true
 
-  #允许提交包含混合换行符的文件 <br />
+  #允许提交包含混合换行符的文件  
   git config --global core.safecrlf false
 
-  #提交包含混合换行符的文件时给出警告 <br />
+  #提交包含混合换行符的文件时给出警告   
   git config --global core.safecrlf warn
 
 ## 创建版本库
@@ -126,10 +128,10 @@ origin 是远程仓库的默认名称
 ## 标签创建
 切换到需要建立标签的分支
 - git checkout branch_name
-- git tag <name> 或者 git tag <name> commit_id
-<br />  -a 可以指定标签名
-<br />  -m 进行注释说明
-<br />  -s 用私钥签名一个标签
+- git tag <name> 或者 git tag <name> commit_id  
+ -a 可以指定标签名  
+ -m 进行注释说明  
+ -s 用私钥签名一个标签  
 
 ## 查重tag信息
 - git show <tagname>  显示标签的信息
@@ -168,115 +170,141 @@ git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Crese
 
 
 2016.07.30
-git config
-1. /etc/gitconfig : 包含系统上的每一个用户及他们仓库的通用配置
+## git config
+1. /etc/gitconfig : 包含系统上的每一个用户及他们仓库的通用配置  
   通过 git config --system 对其进行修改
-2. ~/.gitconfig or ~/.config/git/config :只针对当前用户
+2. ~/.gitconfig or ~/.config/git/config :只针对当前用户  
   通过 git config --global 对此文件进行读写
-3. .git/config 对本仓库进行配置
-  可以通过git config --local 对此文件进行配置，可以省略--local参数
-每一级别覆盖上一个级别的配置。
-windows下，在$HOME目录下的.gitconfig文件中
+3. .git/config 对本仓库进行配置  
+  可以通过git config --local 对此文件进行配置，可以省略--local参数  
+每一级别覆盖上一个级别的配置。  
+windows下，在$HOME目录下的.gitconfig文件中  
 
-可以通过 git config --global core.editor emacs 进行文本编辑器进行配置
-默认的文本编辑器是vim
-检查配置信息
-  git config --list
-  git config <key> 检查某一项配置
-获取帮助
-  git help <verb>
-  git <verb> help
-  man git-<verb>
-克隆项目仓库
-  git clone [url]
+可以通过 git config --global core.editor emacs 进行文本编辑器进行配置  
+默认的文本编辑器是vim  
+检查配置信息  
+- git config --list
+- git config <key> 检查某一项配置
+
+#### 获取帮助
+-  git help <verb>
+-  git <verb> help
+-  man git-<verb>
+#### 克隆项目仓库
+-  git clone [url]  
   此命令会将运程仓库中每一个文件的版本都拉取下来
-  git clone [url] new-name
+-  git clone [url] new-name  
   克隆仓库并自定义仓库名称
-查重工作目录状态
-  git status
-  git status -s/--short 以更紧凑的形式输出
+#### 查重工作目录状态
+-  git status
+-  git status -s/--short 以更紧凑的形式输出
 忽略文件
-  创建 .gitignore 文件
-  http://github.com/github/gitignore github上的各种ignore文件
-对比已暂存文件与未暂存文件的修改
-  git diff
-  git diff --staged/--cached
-跳过暂存区
+
+#### 创建 .gitignore 文件
+  [ignore file](http://github.com/github/gitignore) github上的各种ignore文件
+##### ignore 格式规范
+- 所有空行或者以 ＃ 开头的行都会被 Git 忽略。
+- 可以使用标准的 glob 模式匹配。
+- 匹配模式可以以（/）开头防止递归。
+- 匹配模式可以以（/）结尾指定目录。
+- 要忽略指定模式以外的文件或目录，可以在模式前加上惊叹号（!）取反  
+```
+所谓的 glob 模式是指 shell 所使用的简化了的正则表达式。星号（*）匹配零个或多个任意字符；[abc] 匹配任
+何一个列在方括号中的字符（这个例子要么匹配一个 a，要么匹配一个 b，要么匹配一个 c）；问号（?）只匹配
+一个任意字符；如果在方括号中使用短划线分隔两个字符，表示所有在这两个字符范围内的都可以匹配（比如
+[0-9] 表示匹配所有 0 到 9 的数字）。使用两个星号（*) 表示匹配任意中间目录，比如`a/**/z` 可以匹配 a/z,
+a/b/z 或 `a/b/c/z`等。
+```
+#### 对比已暂存文件与未暂存文件的修改
+-  git diff
+-  git diff --staged/--cached
+#### 跳过暂存区
   git commit -a
   可以将已跟踪过的文件暂存起来一并提交
-移除文件
+#### 移除文件
   git rm
   将文件从已跟踪文件清单中移除（即从暂存区移除）
   git rm --cached
   删除gi仓库中的文件，文件将不再被跟踪
-重命名
-  git mv old_name new-name
+#### 重命名
+-  git mv old_name new-name
   相当于
-  mv old-name new-name
-  git remove old-name
-  git add new-name
-查重提交日志
-  git log
-  -p 显示每次提交内容的差异
-  -2 显示最近再次提交
-  --stat 显示简略的统计信息
-  --pretty 可以设置信息显示的格式
-  --since
-  --util
-撤消操作
-  git commit --amend
-取消暂存的文件
-  git reset HEAD file-name
-撤消对文件的修改
-  git checkout -- file-name
-远程仓库
-  git remote 查看远程仓库
+-  mv old-name new-name
+-  git remove old-name
+-  git add new-name
+#### 查重提交日志
+-  git log
+-  -p 显示每次提交内容的差异
+-  -2 显示最近再次提交
+-  --stat 显示简略的统计信息
+-  --pretty 可以设置信息显示的格式
+-  --since
+-  --util
+#### 撤消操作
+-  git commit --amend
+#### 取消暂存的文件
+-  git reset HEAD file-name
+#### 撤消对文件的修改
+-  git checkout -- file-name
+#### 远程仓库
+-  git remote 查看远程仓库
   -v 显示远程仓库的名称及其url
-  git remote show <remote-name> 查重详细信息
-  git remote add <shortname> <url> 添加一个远程仓库并指定一个简写
-  git fetch <shortname> 拉取仓库，<shortname>可以指代仓库的URL
-  git pull
-推送到远程仓库
-  git push [remote-name] [branch-name]
-  git remote rename old-name new-name
-  git remote rm rep-name
-标签
+-  git remote show <remote-name> 查重详细信息
+-  git remote add <shortname> <url> 添加一个远程仓库并指定一个简写
+-  git fetch <shortname> 拉取仓库，<shortname>可以指代仓库的URL
+-  git pull
+#### 推送到远程仓库
+-  git push [remote-name] [branch-name]
+-  git remote rename old-name new-name
+-  git remote rm rep-name
+#### 标签
   git的标签分为两种：轻量标签与附注标签
   git tag
-2016.08.01
-   -a 创建附注标签
-  git tag -a tag-name -m "commit"
-  创建轻量标签
-  git tag tag-name
-  共享标签
-  git push origin tag-name
-  git push origin --tags 将不在远程服务器上的标签进行推送
-git别名
-  git config --global alias.co checkout
+-   -a 创建附注标签
+-  git tag -a tag-name -m "commit"
+#### 创建轻量标签
+-  git tag tag-name
+#### 共享标签
+-  git push origin tag-name
+-  git push origin --tags 将不在远程服务器上的标签进行推送
+#### git别名
+-  git config --global alias.co checkout
 
 2016年8月4日
-  git的分支，其本质上是指向提交对象的可变指针
-创建分支
-  git branch branch-name
+### git的分支，其本质上是指向提交对象的可变指针
+#### 创建分支
+-  git branch branch-name  
   HEAD指针会指向当前的的分支
-切换分支
-  git checkout branch-name
+#### 切换分支
+-  git checkout branch-name  
   分支切换会改变工作目录中的文件
-合并分支
-  git merge branch-name
-删除分支
-  git branch -d branch-name
+#### 合并其他分支到当前分支
+-  git merge branch-name
+#### 删除分支
+-  git branch -d branch-name   
 
+-----------
 2016年8月8日
-  git 跟踪分支：从一个远程跟踪分支检出一个本地分支会自动创建一个跟踪分支。
-        是与远程分支有直接关系的本地分支。
-  git fetch 从服务器抓取本地没有的数据，不会自动merge到当前分支当中，不会修改工作目录中的内容。
-  git pull <==> 获取最新的版本，并merge到当前分支中，相当于 git fetch ; git merge
+###  git 跟踪分支：
+  从一个远程跟踪分支检出一个本地分支会自动创建一个跟踪分支。是与远程分支有直接关系的本地分支。  
+  git fetch 从服务器抓取本地没有的数据，不会自动merge到当前分支当中，不会修改工作目录中的内容。  
+  git pull <==> 获取最新的版本，并merge到当前分支中，相当于 git fetch ; git merge  
   最好是使用 git fetch origin 再使用 git merge,这样可以对代码的改变有更清楚的了解。
-  
-  变基
-    rebase 通过变基可以使提交历史看起来是串行的，使提交历史更简洁。
-    git rebase [basebranch] [topicbranch]
-    不要对你的仓库外有副本的分支执行变基
-  只对尚未推送或分享给别人的本地修改执行变基操作清理历史，从不对已推送至别处的提交执行变
-基操作
+
+#### 变基
+-    rebase 通过变基可以使提交历史看起来是串行的，使提交历史更简洁。
+-    git rebase [basebranch] [topicbranch]  
+  不要对你的仓库外有副本的分支执行变基  
+  只对尚未推送或分享给别人的本地修改执行变基操作清理历史，从不对已推送至别处的提交执行变基操作
+
+## 2016年10月27日
+#### git知识
+git对待数据像一个快照流，如果文件没有修改，git不再重新存储此文件，而是保留一个链接指向之前存储的文件。  
+git提交时保存的是全部文件的一个快照。
+git 一般只添加数据   
+
+git 有三种状态：已提交(committed), 已修改(modified), 已暂存(staged)
+![status](./img/git/git_status.png)
+
+git 的文件有如下的生命周期
+![file_life](./img/git/git_file_life.png)
