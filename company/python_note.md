@@ -46,12 +46,12 @@ python的语法：
     要在定义的时候进行初始化。
     tuple只有一个元素时，要加一个 , 号消除歧义
 ### 条件判断
-		if True:  
-	     ...  
-		elif True:  
-		  ...  
-		else:  
-		  ...  
+		if True:
+	     ...
+		elif True:
+		  ...
+		else:
+		  ...
 	int()可以将字符型的数字转换成整型
 ### 循环
 1. for var in (list/tuple)
@@ -101,7 +101,7 @@ pass 语句什么也不做
    参数定义的顺序必须是：必选参数、默认参数、可变参数、命名关键字参数和关键字参数.
    \*args是可变参数，args接收的是一个tuple；
    \**kw是关键字参数，kw接收的是一个dict。
-## 高级特性  
+## 高级特性
 ### 切片
 通过切片可以对 list tuple 字符串进行截取操作
  [start_index:end_index:step]
@@ -128,12 +128,12 @@ isinstance()可以对判断变量的类型
 ------
 ## 函数式编程
 ### 高级函数
-可以接收函数变量作为参数的函数  
+可以接收函数变量作为参数的函数
 
 - map()
 - reduce()
 - filter() 过滤序列
-- sorted() 排序函数  
+- sorted() 排序函数
     sorted(['bob', 'about', 'Zoo', 'Credit'],key=str.lower)['about', 'bob', 'Credit', 'Zoo']
     sorted(['bob', 'about', 'Zoo', 'Credit'], key=str.lower, reverse=True)
 
@@ -141,46 +141,46 @@ isinstance()可以对判断变量的类型
 匿名函数有个限制，就是只能有一个表达式，不用写return，返回值就是该表达式的结果。
 
 ### 偏函数
-偏函数是对已有的函数进行包装的函数，将一些函数的参数设置为默认值，从而形成一个新的函数   
-可以通过**functools.partial**创建一个新的函数   
+偏函数是对已有的函数进行包装的函数，将一些函数的参数设置为默认值，从而形成一个新的函数
+可以通过**functools.partial**创建一个新的函数
 `int2 = functools.partial(int, base=2)`
 
 ----------
 ## 模块
-一个.py文件就称之为一个模块（Module）   
-为了避免模块名冲突，Python又引入了按目录来组织模块的方法，称为包  
+一个.py文件就称之为一个模块（Module）
+为了避免模块名冲突，Python又引入了按目录来组织模块的方法，称为包
 每一个包目录下面都会有一个`__init__.py`的文件，这个文件是必须存在的，否则，Python就把这个目录当成普通目录，而不是一个包。\_\_init\_\_.py可以是空文件，也可以有Python代码，因为\_\_init\_\_.py本身就是一个模块，而它的模块名就是mycompany。
 
 ### 导入模块
 import model_name
 
-\_ 前缀表明变量仅在模块内部使用  
-正常的函数和变量名是公开的  
+\_ 前缀表明变量仅在模块内部使用
+正常的函数和变量名是公开的
 \_\_var\_\_ 是特殊变量 可以直接访问
 \_var 和 \__var 类型的函数或变量就是非公开的，不应该直接引用
 
 ### 面向对象
 在Python中，所有数据类型都可以视为对象，当然也可以自定义对象。自定义的对象数据类型就是面向对象中的类（Class）的概念。
-数据封装、继承和多态是面向对象的三大特点  
-通过 class 定义类  
-\_\_init\_\_方法相当于java中的构造方法，其第一个参数是 self (相当于java中的this,表示创建的实例本身，self指向创建的实例)  
+数据封装、继承和多态是面向对象的三大特点
+通过 class 定义类
+\_\_init\_\_方法相当于java中的构造方法，其第一个参数是 self (相当于java中的this,表示创建的实例本身，self指向创建的实例)
 ```
 class Student(object):
     def __init__(self, name, score):
         self.name = name
         self.score = score
 ```
-创建实例： 类名+() 可以进行对象的创建  		  				
-继承：在`class Student(object)`说明了 类Studen继承于object类。    
-使用 **type()** 判断对象的类型    
-判断对象是否是函数对象可以使用 **types** 模块中定义的常量  
-使用 **isinstance()** 判断继承关系  
-使用 **dir()** 获得一个对象的所有属性和方法  
-使用 **\_\_slots\_\_** 限制对象的属性(动态语言中可以给对象添加属性和方法)  
-**\_\_slots\_\_** 定义的属性仅对当前类实例起作用，对继承的子类是不起作用的：  
-把一个getter方法变成属性，只需要加上@property就可以了，此时，  
-@property本身又创建了另一个装饰器@score.setter，负责把一个setter方法变成属性赋值，   
-于是，我们就拥有一个可控的属性操作  
+创建实例： 类名+() 可以进行对象的创建
+继承：在`class Student(object)`说明了 类Studen继承于object类。
+使用 **type()** 判断对象的类型
+判断对象是否是函数对象可以使用 **types** 模块中定义的常量
+使用 **isinstance()** 判断继承关系
+使用 **dir()** 获得一个对象的所有属性和方法
+使用 **\_\_slots\_\_** 限制对象的属性(动态语言中可以给对象添加属性和方法)
+**\_\_slots\_\_** 定义的属性仅对当前类实例起作用，对继承的子类是不起作用的：
+把一个getter方法变成属性，只需要加上@property就可以了，此时，
+@property本身又创建了另一个装饰器@score.setter，负责把一个setter方法变成属性赋值，
+于是，我们就拥有一个可控的属性操作
 ```
 class Student(object):
     @property
@@ -254,7 +254,7 @@ logging.basicConfig(level=logging.INFO)
 日志级别： debug info waening error
 
 ### 单元测试
-测试类继承于unittest.TestCase   
+测试类继承于unittest.TestCase
 以test开头的方法就是测试方法，不以test开头的方法不被认为是测试方法，测试的时候不会被执行
 setup()方法有测试方法调用前被执行
 tearDown()方法在测试方法调用后被执行
@@ -269,7 +269,7 @@ doc comment
 - 打开文件： `open('path/file-name','rw')`
 - 读取文件内容： read();可以一次读完文件的全部内容。
 - 关闭文件： close();
-Python引入了with语句来自动帮我们调用close()方法：
+  Python引入了with语句来自动帮我们调用close()方法：
 ```
 with open('/path/to/file', 'r',encoding='gbk') as f:
     print(f.read())
@@ -277,7 +277,7 @@ with open('/path/to/file', 'r',encoding='gbk') as f:
 - read(size) 读取指定大小的内容
 - readline() 读取一行内容
 - readlines() 一次读取所有内容并并按行list
-- write() 写文件 
+- write() 写文件
 ### StringIO 在内存中读写str
 ```
 >>> from io import StringIO
@@ -309,7 +309,7 @@ b'\xe4\xb8\xad\xe6\x96\x87'>>> from io import BytesIO
 b'\xe4\xb8\xad\xe6\x96\x87'
 ```
 
-### 操作文件和目录 
+### 操作文件和目录
 操作文件和目录的函数一部分放在os模块中，一部分放在os.path模块中
 ```
 # 查看当前目录的绝对路径:
@@ -331,7 +331,7 @@ b'\xe4\xb8\xad\xe6\x96\x87'
 这样可以把一个路径拆分为两部分，
 后一部分总是最后级别的目录或文件名：
 
-os.path.splitext()可以直接得到文件扩展名  
+os.path.splitext()可以直接得到文件扩展名
 shutil模块提供了copyfile()的函数，你还可以在shutil模块中找到很多实用函数，
 它们可以看做是os模块的补充。
 最后看看如何利用Python的特性来过滤文件。比如我们要列出当前目录下的所有目录，只需要一行代码：
@@ -379,11 +379,11 @@ Python对象变成一个JSON：
 前者把JSON的字符串反序列化，
 后者从file-like Object中读取字符串并反序列化
 
-通常class的实例都有一个__dict__属性，它就是一个dict，用来存储实例变量。  
+通常class的实例都有一个__dict__属性，它就是一个dict，用来存储实例变量。
 
 如果我们要把JSON反序列化为一个Student对象实例，loads()方法首先转换出一个dict对象，
 然后，我们传入的object_hook函数负责把dict转换为Student实例：
-### 进程与线程 
+### 进程与线程
 在linux中通过 fork() 建立线程
 在Unix/Linux下，multiprocessing模块封装了fork()调用，
 使我们不需要关注fork()的细节。由于Windows没有fork调用，
@@ -407,19 +407,46 @@ ThreadLocal解决了参数在一个线程中各个函数之间互相传递的问
 
 要实现多任务，通常我们会设计Master-Worker模式，Master负责分配任务，Worker负责执行任务，因此，多任务环境下，通常是一个Master，多个Worker。
 
-如果用多进程实现Master-Worker，主进程就是Master，其他进程就是Worker。
+如果用多线程实现Master-Worker，主线程就是Master，其他线程就是Worker.
 
-如果用多线程实现Master-Worker，主线程就是Master，其他线程就是Worker。
 -------
 ## 内置模块
 ### datetime
+- from datetime import datetime, timedelta, timezone 
+timedelta 可以对时间进行加减计算
+timezone 可以对时间进行时区的设置
+datetime表示的时间需要时区信息才能确定一个特定的时间，否则只能视为本地时间。
+如果要存储datetime，最佳方法是将其转换为timestamp再存储，因为timestamp的值与时区完全无关
+### collections
+- from collections import namedtuple
+namedtuple是一个函数，它用来创建一个自定义的tuple对象，并且规定了tuple元素的个数，
+并可以用属性而不是索引来引用tuple的某个元素。
+deque是为了高效实现插入和删除操作的双向列表，适合用于队列和栈：
+使用dict时，如果引用的Key不存在，就会抛出KeyError。如果希望key不存在时，返回一个默认值，就可以用defaultdict：
+使用dict时，Key是无序的。在对dict做迭代时，我们无法确定Key的顺序。
+如果要保持Key的顺序，可以用OrderedDict
+OrderedDict的Key会按照插入的顺序排列，不是Key本身排序
+### base64
+Base64是一种任意二进制到文本字符串的编码方法，常用于在URL、Cookie、网页中传输少量二进制数据。
+### struct
+将字符串转换为字节型的数据
+### hashlib 
+Python的hashlib提供了常见的摘要算法，如MD5，SHA1等等。
+### itertools
+itertools模块提供的全部是处理迭代功能的函数，它们的返回值不是list，而是Iterator，
+只有用for循环迭代的时候才真正计算。
+### XML
+操作XML有两种方法：DOM和SAX。DOM会把整个XML读入内存，解析为树，因此占用内存大，解析慢，
+优点是可以任意遍历树的节点。SAX是流模式，边读边解析，占用内存小，解析快，缺点是我们需要自己处理事件。
+from xml.parsers.expat import ParserCreate
+#### HTMLParser
 
+### urllib
+urllib提供的功能就是利用程序去执行各种HTTP请求。如果要模拟浏览器完成特定功能，需要把请求伪装成浏览器。
+伪装的方法是先监控浏览器发出的请求，再根据浏览器的请求头来伪装，User-Agent头就是用来标识浏览器的。
 
-
-
-
-
-
+------
+## TCP编程
 
 
 ### 套接字层
