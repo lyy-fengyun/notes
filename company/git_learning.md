@@ -308,3 +308,11 @@ git 有三种状态：已提交(committed), 已修改(modified), 已暂存(stage
 
 git 的文件有如下的生命周期
 ![file_life](./img/git/git_file_life.png)
+
+### git log 出现中方乱码问题
+```
+git config --global i18n.commitencoding utf-8
+git config --global i18n.logoutputencoding gbk
+```
+设置commit提交时使用 utf-8 编码，避免在linux下出现问题，
+设置在git log时将utf-8 转换为gbk编码，解决乱码问题
