@@ -316,3 +316,9 @@ git config --global i18n.logoutputencoding gbk
 ```
 设置commit提交时使用 utf-8 编码，避免在linux下出现问题，
 设置在git log时将utf-8 转换为gbk编码，解决乱码问题
+
+设置git status下乱码问题：
+git config --global core.qutopath false
+
+删除配置
+git config --uset ...

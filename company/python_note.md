@@ -395,7 +395,7 @@ Python对象变成一个JSON：
 要实现跨平台的多进程，可以使用multiprocessing模块。
 进程间通信是通过Queue、Pipes等实现的
 #### 线程
-Python的标准库提供了两个模块：_thread和threading，_thread是低级模块，
+Python的标准库提供了两个模块:\_thread和threading，\_thread是低级模块，
 threading是高级模块，对_thread进行了封装。绝大多数情况下，
 我们只需要使用threading这个高级模块。
 
@@ -412,7 +412,7 @@ ThreadLocal解决了参数在一个线程中各个函数之间互相传递的问
 -------
 ## 内置模块
 ### datetime
-- from datetime import datetime, timedelta, timezone 
+- from datetime import datetime, timedelta, timezone
 timedelta 可以对时间进行加减计算
 timezone 可以对时间进行时区的设置
 datetime表示的时间需要时区信息才能确定一个特定的时间，否则只能视为本地时间。
@@ -430,7 +430,7 @@ OrderedDict的Key会按照插入的顺序排列，不是Key本身排序
 Base64是一种任意二进制到文本字符串的编码方法，常用于在URL、Cookie、网页中传输少量二进制数据。
 ### struct
 将字符串转换为字节型的数据
-### hashlib 
+### hashlib
 Python的hashlib提供了常见的摘要算法，如MD5，SHA1等等。
 ### itertools
 itertools模块提供的全部是处理迭代功能的函数，它们的返回值不是list，而是Iterator，
