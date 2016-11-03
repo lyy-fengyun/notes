@@ -1,7 +1,7 @@
 # java 学习
 ## 读源码前的准备
 1. xml语法，dtd学习，xsd学习
-2. java注解
+2. java注解 ok
 3. java 多线程
 4. 内部类  ok
 5. 反射    ok
