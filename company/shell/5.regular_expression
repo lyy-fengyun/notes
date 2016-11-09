@@ -1,0 +1,97 @@
+单个字符表示法
+
+字符本身        <-- 除了下面的特殊字符之外，字符可以表示其本身
+.               <-- Any character
+\d              <-- Digit in 0123456789
+\D              <-- Non-digit 
+\w              <-- Word: letters, digits, underscore (_)
+\W              <-- Non-word 
+\t              <-- Tab
+\r              <-- Carriage return
+\n              <-- New line
+\s              <-- Whitespace: space, \t, \r, \n
+\S              <-- Non-whitespace
+[abc]           <-- a, or b, or c
+[a-c]           <-- a, or b, or c
+[0-2]           <-- 0, or 1, or 2
+[1-3a-cX-Z]     <-- 1, 2, 3, a, b, c, X, Y, Z
+[^abc]          <-- Any character except a and b and c
+[:upper:]       <-- Upper case letters, [A-Z]
+[:lower:]       <-- Lower case letters, [a-z]
+[:alpha:]       <-- Alphabetic characters, [a-zA-Z]
+[:alnum:]       <-- Alphanumeric characters, [a-zA-Z0-9]
+[:digit:]       <-- Digits, [0-9]
+[:xdigit:]      <-- Hexadecimal digits, [a-fA-F0-9]
+[:punct:]       <-- Punctuation and symbols, [][!"#$%&'()*+,./:;<=>?@\^_`{|}~-]
+[:blank:]       <-- Space and tab, [ \t]
+[:space:]       <-- All whitespace characters including line breaks, [ \t\r\n\v\f]
+[:cntrl:]       <-- Control characters, [\x00-\x1F\x7F]
+[:graph:]       <-- Visible characters (i.e. anything except spaces, control characters, etc.), [\x21-\x7E]
+[:print:]       <-- Visible characters and spaces (i.e. anything except control characters, etc.), [\x20-\x7E]
+[:word:]        <-- Word characters (letters, numbers and underscores), [a-zA-Z0-9_]
+[:ascii:]       <-- ASCII characters, [\x00-\x7F]
+
+
+
+特殊字符表示法
+
+^$.*+?|\{}[]() 都有特殊意义的，如果需要表示这些符号，则可以用反斜杠对它们进行转义，比如：
+\. 匹配一个点
+\\ 匹配一个反斜杠
+\^
+\$
+
+出现在[...]中的连字符也有特殊意义，如果需要在[...]中表示一个连字符，就要把它放到[...] 的头部或者尾部，比如：
+[abc-] 或者 [-abc]
+
+
+
+数量表示法
+
+用来表示前面的一个字符，或者一组字符重复的次数
+*           <-- 任意次,     c >= 0
++           <-- 至少1次,    c >= 1
+?           <-- 0次或者1次, c == 0 || c == 1
+{m}         <-- m 次,       c == m
+{m,}        <-- 至少m 次,   c >= m
+{m,n}       <-- m 次至n 次, c >= m && c <= n
+
+数量表示符作用于前面的一个字符，或者一组字符，用小括号括起来的就是一组字符。
+ab+  匹配ab, abb, abbb, abbbb...
+(ab)+ 匹配ab, abab, ababab, abababab...
+
+默认情况下，数量表示符是最大匹配，某些正则表达式引擎支持用问号 ? 来启用最小匹配
+.*b   匹配 aaabababa      <-- 最大匹配
+           ^^^^^^^^
+.*?b  匹配 aaabababa      <-- 最小匹配
+           ^^^^
+
+
+
+分组表示法
+
+(abc)       <-- 一组连续的字符abc
+(aa|bb)     <-- 一组连续的字符ab 或者 bb
+
+
+
+边界表示法
+
+^           <-- 字符串的开头
+$           <-- 字符串的结尾
+\b          <-- 单词边界
+\B          <-- 非单词边界
+\<          <-- 单词左边界
+\>          <-- 单词右边界
+
+
+
+引用表示法
+
+从左边开始数左小括号(openning brace)，数字从1开始，被第一对括号匹配的字符可以用\1 来引用，第二对可以用\2 来引用，以此类推。
+[czl@mob shell_03]$ echo abcabcabcaabb | grep -E '(a(bc)){2}\1' --color
+abcabcabcaabb
+[czl@mob shell_03]$ echo abcabcabcaabb | grep -E '(a(bc)){2}a\2' --color
+abcabcabcaabb
+[czl@mob ~]$ echo "hello world, hello world, hello beautiful world" | grep -E --color '((hello) (world)), \1, \2 .* \3'
+hello world, hello world, hello beautiful world

@@ -1,0 +1,181 @@
+1. shell 的工作原理 (1)
+
+    内核 <---> shell <---> 用户
+    父进程 fork --> wait
+    子进程 exec --> exit
+    相关man文档:
+        fork(2)
+        clone(2)
+        execve(2)
+        exit_group(2)
+        exit4(2)
+        strace(1)
+
+2. shell 语法 (3)
+    1. 简单命令 (kw: Simple Commands)
+        基本形式：command [arg]...
+        范例：
+            cd
+            ls -l
+            cp /data/log /backup/log
+
+    2. 管道 (kw: Pipelines)
+        基本形式：cmd1 | cmd2 | cmd3
+
+    3. 列表 (kw: Lists)
+        ;: 命令按顺序从左到右执行
+        &: 命令同时执行
+        &&: 左边成功才执行右边
+        |: 左边失败才执行右边
+
+    4. 复合命令 (kw: Compound Commands)
+        (list)
+        { list; }
+        ((expression))
+        [[ expression ]]
+        if, case, for, while
+
+3. 引用 (2), (kw: QUOTING)
+    1. 双引号
+    2. 单引号
+    3. 反斜杠
+
+4. 参数 (3), (kw: PARAMETERS)
+    Shell 参数是存放“值”的“东西”，它可以是一个名字，一个数字，或者是一些特殊符号。
+    1. 变量
+    2. 位置参数 (kw: Positional Parameters)
+    3. 特殊参数 (kw: Special Parameters)
+        $*: 所有位置参数合并成的一个字符串
+        $@: 所有位置参数，如果放在双引号里面，则保存参数的边界
+    4. shell 内置变量 (kw: Shell Variables)
+    5. 阵列 (kw: Arrays)
+        a=(e1 e2 e3)
+        declare -A a
+        a[x]=1
+        a[y]=2
+        ${#name[*]}     <-- 阵列的长度
+        ${!name[*]}     <-- 阵列的keys
+        ${name[*]}      <-- 阵列的values
+        unset name      <-- 删除整个阵列
+        unset name[0]   <-- 删除阵列中的一个元素
+
+5. 展开 (3), (kw: EXPANSION)
+    shell 在执行命令之前，会对读到的命令行字符串做一系列的展开操作，常见的展开操作有：
+    1. 大括号展开 (kw: Brace Expansion)
+        {1..10}, {1..10..2}, {a..z}
+        d{1,2,3} -> d1 d2 d3
+
+        $ cp -v /tmp/a/b/c/deep{,2}
+        ‘/tmp/a/b/c/deep’ -> ‘/tmp/a/b/c/deep2’
+
+    2. 波浪号展开 (kw: Tilde Expansion)
+        ~: 当前用户的家目录
+        ~user：指定用户的家目录
+        ~+: 当前工作目录
+        ~-: 上一个工作目录
+
+    3. 参数展开 (kw: Parameter Expansion)
+        $, ${name}
+        ${name:-default}
+        ${name:offset}
+        ${name:offset:length}
+        ${#name}                <-- 计算字符串长度
+        ${name#word}
+        ${name%word}
+        ${name/pattern/string}
+        ${name^pattern}
+        ${name,pattern}
+
+    4. 命令替换 (kw: Command Substitution)
+        $(cmd list)
+        `cmd list`
+
+    5. 算术展开 (kw: Arithmetic Expansion)
+        $((expression))
+        $[expression]
+
+    6. 进程替换 (kw: Process Substitution)
+        <(cmd list)
+        >(cmd list)
+
+    7. 路径名展开 (kw: Pathname Expansion)
+        *, ?, []
+
+6. 重定向 (3), (kw: REDIRECTION)
+    重定向输入 (kw: Redirecting Input, Here Documents, Here Strings)
+        wc -l < file
+        cmd <<EOF
+        ..
+        EOF
+        cmd <<< "string"
+    重定向输出 (kw: Redirecting Output)
+    复制文件描述符 (kw: Duplicating File Descriptors)
+        exec 4>&3   <-- 把3 复制成4
+    移动文件描述符 (kw: Moving File Descriptors)
+        exec 4>&3-  <-- 把3 移动到4
+    关闭文件描述符
+        exec 3>&-   <-- 关闭3
+    以读写方式打开文件描述符 (kw: Opening File Descriptors for Reading and Writing)
+        exec 3<>file    <-- 以读写形式打开
+
+7. 算术运算 (1)
+    1. ((expression)) (kw: ARITHMETIC EVALUATION)
+    2. $((expression)) (kw: Arithmetic Expansion)
+    3. 小数运算
+        bc, python, awk
+    
+8. 简单命令的展开 (1), (kw: SIMPLE COMMAND EXPANSION)
+    shell 执行简单命令时，在实际执行之前，会做以下操作：
+        1. 取出变量赋值和重定向部分
+        2. 对余下部分做展开操作
+        3. 执行重定向操作
+        4. 执行变量赋值操作
+    简单命令展开完后，如果展开的结果中有命令名，则流程去到“命令的执行”阶段。
+
+9. 命令的执行 (2), (kw: COMMAND EXECUTION)
+    1. 如果命令名不包含斜杠，就按顺序搜索命令：
+        1. 函数
+        2. 内部命令
+        3. 搜索PATH 中的目录
+    2. 如果搜索成功，或者命令名包含了斜杠，则开始执行。
+    3. 如果搜索失败，或者程序文件不存在，则返回127。
+
+10. 命令的执行环境 (3), (kw: COMMAND EXECUTION ENVIRONMENT)
+    1. 打开的文件
+    2. 当前工作目录
+    3. umask
+    4. 信号trap
+    5. shell 变量
+    6. shell 函数
+    7. shell 的功能选项(set, shopt)
+    8. shell 别名
+    9. 各种进程IP ($$, $PPID)
+
+11. 环境变量 (1), (kw: ENVIRONMENT)
+    当一个命令被执行的时候，会有一个字符串阵列（列表）传给它，这个阵列叫做“环境”，也叫“环境变量”。
+    shell 的环境变量可以传给子进程。设置shell 的环境变量的命令：
+        1. export
+            export time         <-- 把time 设置成环境变量
+            export -n time      <-- 使time 编程非环境变量
+        2. declare
+            declare -x time     <-- 把time 设置成环境变量
+            declare +x time     <-- 使time 编程非环境变量
+
+12. shell 的内部命令 (3), (kw: SHELL BUILTIN COMMANDS)
+    01. :
+    02. ., source
+        点命令(source)把文件里面的代码读到“当前进程”中执行。
+    03. break, continue
+        break       <-- 结束整个循环
+        continue    <-- 结束当此循环，进入下一次循环
+    04. cd, pwd
+        cd          <-- 必须是内部命令
+    05. declare, export, readonly, local
+    06. set, unset, shopt
+    07. echo, read, printf
+    08. exec
+    09. exit, return
+    10. kill, trap
+    11. shift
+    12. test, [
+    13. wait
