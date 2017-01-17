@@ -32,7 +32,7 @@
 		<filter class="ch.qos.logback.core.filter.EvaluatorFilter">
             <evaluator> 
             	<!--  defaults to type ch.qos.logback.classic.boolex.JaninoEventEvaluator-->
-            	<expression>logger.contains("test")</expression>
+            	<expression>logger.contains"test")</expression>
            	</evaluator>            
            	<OnMismatch>NEUTRAL</OnMismatch>
             <OnMatch>DENY</OnMatch>        

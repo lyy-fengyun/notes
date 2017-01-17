@@ -4,7 +4,7 @@
 .               <-- Any character
 \d              <-- Digit in 0123456789
 \D              <-- Non-digit 
-\w              <-- Word: letters, digits, underscore (_)
+\w              <-- Word: letters, digits, underscore _)
 \W              <-- Non-word 
 \t              <-- Tab
 \r              <-- Carriage return
@@ -22,20 +22,20 @@
 [:alnum:]       <-- Alphanumeric characters, [a-zA-Z0-9]
 [:digit:]       <-- Digits, [0-9]
 [:xdigit:]      <-- Hexadecimal digits, [a-fA-F0-9]
-[:punct:]       <-- Punctuation and symbols, [][!"#$%&'()*+,./:;<=>?@\^_`{|}~-]
+[:punct:]       <-- Punctuation and symbols, [][!"#$%&')*+,./:;<=>?@\^_`{|}~-]
 [:blank:]       <-- Space and tab, [ \t]
 [:space:]       <-- All whitespace characters including line breaks, [ \t\r\n\v\f]
 [:cntrl:]       <-- Control characters, [\x00-\x1F\x7F]
-[:graph:]       <-- Visible characters (i.e. anything except spaces, control characters, etc.), [\x21-\x7E]
-[:print:]       <-- Visible characters and spaces (i.e. anything except control characters, etc.), [\x20-\x7E]
-[:word:]        <-- Word characters (letters, numbers and underscores), [a-zA-Z0-9_]
+[:graph:]       <-- Visible characters i.e. anything except spaces, control characters, etc.), [\x21-\x7E]
+[:print:]       <-- Visible characters and spaces i.e. anything except control characters, etc.), [\x20-\x7E]
+[:word:]        <-- Word characters letters, numbers and underscores), [a-zA-Z0-9_]
 [:ascii:]       <-- ASCII characters, [\x00-\x7F]
 
 
 
 特殊字符表示法
 
-^$.*+?|\{}[]() 都有特殊意义的，如果需要表示这些符号，则可以用反斜杠对它们进行转义，比如：
+^$.*+?|\{}[]) 都有特殊意义的，如果需要表示这些符号，则可以用反斜杠对它们进行转义，比如：
 \. 匹配一个点
 \\ 匹配一个反斜杠
 \^
@@ -58,7 +58,7 @@
 
 数量表示符作用于前面的一个字符，或者一组字符，用小括号括起来的就是一组字符。
 ab+  匹配ab, abb, abbb, abbbb...
-(ab)+ 匹配ab, abab, ababab, abababab...
+ab)+ 匹配ab, abab, ababab, abababab...
 
 默认情况下，数量表示符是最大匹配，某些正则表达式引擎支持用问号 ? 来启用最小匹配
 .*b   匹配 aaabababa      <-- 最大匹配
@@ -70,8 +70,8 @@ ab+  匹配ab, abb, abbb, abbbb...
 
 分组表示法
 
-(abc)       <-- 一组连续的字符abc
-(aa|bb)     <-- 一组连续的字符ab 或者 bb
+abc)       <-- 一组连续的字符abc
+aa|bb)     <-- 一组连续的字符ab 或者 bb
 
 
 
@@ -88,10 +88,10 @@ $           <-- 字符串的结尾
 
 引用表示法
 
-从左边开始数左小括号(openning brace)，数字从1开始，被第一对括号匹配的字符可以用\1 来引用，第二对可以用\2 来引用，以此类推。
-[czl@mob shell_03]$ echo abcabcabcaabb | grep -E '(a(bc)){2}\1' --color
+从左边开始数左小括号openning brace)，数字从1开始，被第一对括号匹配的字符可以用\1 来引用，第二对可以用\2 来引用，以此类推。
+[czl@mob shell_03]$ echo abcabcabcaabb | grep -E 'abc)){2}\1' --color
 abcabcabcaabb
-[czl@mob shell_03]$ echo abcabcabcaabb | grep -E '(a(bc)){2}a\2' --color
+[czl@mob shell_03]$ echo abcabcabcaabb | grep -E 'abc)){2}a\2' --color
 abcabcabcaabb
-[czl@mob ~]$ echo "hello world, hello world, hello beautiful world" | grep -E --color '((hello) (world)), \1, \2 .* \3'
+[czl@mob ~]$ echo "hello world, hello world, hello beautiful world" | grep -E --color 'hello) world)), \1, \2 .* \3'
 hello world, hello world, hello beautiful world
