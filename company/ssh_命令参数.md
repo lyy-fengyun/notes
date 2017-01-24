@@ -31,5 +31,4 @@ wile condition
 do 
     command
 done
-
 ```
